@@ -60,7 +60,7 @@ def edit_profile():
 @app.route('/explore')
 @login_required
 def explore():
-    page = requests.args.get('page', 1, type=int)
+    page = request.args.get('page', 1, type=int)
     posts = Post.query.order_by(Post.timestamp.desc()).paginate(
         page, app.config['POSTS_PER_PAGE'], False)
     next_url = url_for('explore', page=posts.next_num) \
@@ -159,7 +159,7 @@ def unfollow(username):
 @login_required
 def user(username):
     user = User.query.filter_by(username=username).first_or_404()
-    page = requests.args.get('page', 1, type=int)
+    page = request.args.get('page', 1, type=int)
     posts = user.posts.order_by(Post.timestamp.desc()).paginate(
         page, app.config['POSTS_PER_PAGE'], False)
     next_url = url_for('user', username=user.username, page=posts.next_num) \
